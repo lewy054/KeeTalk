@@ -11,7 +11,11 @@ namespace KeeTalk.Controllers
     public class ChatController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private static IEnumerable<Message> messages;
+        [BindProperty]
+        public IEnumerable<Message> Messages { get; set; }
+        [BindProperty]
+        public Message Message { get; set; }
+        
 
         public ChatController(ApplicationDbContext db)
         {
@@ -20,24 +24,18 @@ namespace KeeTalk.Controllers
         // GET: ChatController
         public ActionResult Index()
         {
-            messages = _db.Messages.ToList();
-            return View(messages);
-        }
-
-        // GET: ChatController/Create
-        public ActionResult Create()
-        {
-            return View();
+            Messages = _db.Messages.ToList();
+            return View(Messages);
         }
 
         // POST: ChatController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Message message)
+        public ActionResult Create()
         {
-            message.Date = DateTime.Now;
-            message.Author = "dsa";
-            _db.Messages.Add(message);
+            Message.Date = DateTime.Now;
+            Message.Author = "dsa";
+            _db.Messages.Add(Message);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
