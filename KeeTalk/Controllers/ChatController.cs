@@ -1,4 +1,6 @@
-﻿using KeeTalk.Models;
+﻿using KeeTalk.Data;
+using KeeTalk.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,14 +12,14 @@ namespace KeeTalk.Controllers
 {
     public class ChatController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly KeeTalkContext _db;
         [BindProperty]
         public IEnumerable<Message> Messages { get; set; }
         [BindProperty]
         public Message Message { get; set; }
-        
 
-        public ChatController(ApplicationDbContext db)
+
+        public ChatController(KeeTalkContext db)
         {
             _db = db;
         }
@@ -33,11 +35,15 @@ namespace KeeTalk.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create()
         {
-            Message.Date = DateTime.Now;
-            Message.Author = "dsa";
-            _db.Messages.Add(Message);
-            _db.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                Message.Date = DateTime.Now;
+                Message.Author = User.Identity.Name;
+                _db.Messages.Add(Message);
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
         }
     }
 }

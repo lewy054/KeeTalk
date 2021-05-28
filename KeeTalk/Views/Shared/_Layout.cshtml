@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/chat.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -31,13 +32,27 @@
                         <a class="navbar-brand display-1 text-white" asp-area="" asp-controller="Home" asp-action="Index" style="font-family: 'Limelight', cursive;">KeeTalk</a>
                     </li>
                 </ul>
+
                 <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="return confirm('Do you want to logout?')" asp-controller="Account" asp-action="Logout">Welcome @User.Identity.Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link m-2" ></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </nav>
@@ -45,6 +60,7 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
     </div>
 

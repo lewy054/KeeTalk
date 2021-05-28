@@ -10,16 +10,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KeeTalk.Migrations
 {
     [DbContext(typeof(KeeTalkContext))]
-    [Migration("20210526155231_addMessage")]
-    partial class addMessage
+    [Migration("20210528011436_AddRegisterAndLogin")]
+    partial class AddRegisterAndLogin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("ProductVersion", "3.1.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("KeeTalk.Models.LoginViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RememberMe")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoginViewModel");
+                });
 
             modelBuilder.Entity("KeeTalk.Models.Message", b =>
                 {
