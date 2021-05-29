@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace KeeTalk.Models
 {
-    public class Message
+    public class ChatRoom
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Color { get; set; }
 
-        [Required]
-        public string Author { get; set; }
-        [Required]
-        public string Content { get; set; }
-        [Required]
-        public DateTime Date { get; set; }
     }
 }

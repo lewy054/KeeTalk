@@ -1,0 +1,30 @@
+﻿@model IEnumerable<KeeTalk.Models.ChatRoom>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    <div class="card-columns">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="background-color:@Html.DisplayFor(modelItem => item.Color)">
+                <img class="card-img-top" src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" alt="Card image cap">
+                <div class="card-body col text-center">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <a href="#" class="btn btn-primary">Enter room</a>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
