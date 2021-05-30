@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,10 +26,14 @@ namespace KeeTalk.Controllers
             _db = db;
         }
         // GET: ChatController
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            Messages = _db.Messages.ToList();
-            return View(Messages);
+            MultipleModel MultipleModelList = new MultipleModel();
+            Messages = _db.Messages.Where(u => u.RoomId == id);
+            Message message = new Message { RoomId = id };
+            MultipleModelList.Message = message;
+            MultipleModelList.Messages = Messages;
+            return View(MultipleModelList);
         }
 
         // POST: ChatController/Create
@@ -42,7 +47,8 @@ namespace KeeTalk.Controllers
                 Message.Author = User.Identity.Name;
                 _db.Messages.Add(Message);
                 _db.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = Message.RoomId });
+
             }
             return View("NotAuthorized");
 

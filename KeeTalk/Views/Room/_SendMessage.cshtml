@@ -1,0 +1,17 @@
+﻿@model KeeTalk.Models.MultipleModel
+
+<form asp-action="Create">
+    <input type="hidden" asp-for="@Model.Message.RoomId" />
+    <div class="card-footer">
+        <div class="input-group">
+            <div class="input-group-append">
+                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+            </div>
+            <textarea id="content_text" asp-for="@Model.Message.Content" class="form-control type_msg" placeholder="Type your message..."></textarea>
+            <span asp-validation-for="@Model.Message.Content" class="text-danger"></span>
+            <div class="input-group-append">
+                <input type="submit" value="Send" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

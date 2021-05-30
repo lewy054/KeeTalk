@@ -17,7 +17,7 @@
                 <div class="card-body col text-center">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <a href="#" class="btn btn-primary">Enter room</a>
+                    <a asp-action="Index" asp-controller="Room" asp-route-id="@item.Id" class="btn btn-primary">Enter room</a>
                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -35,8 +35,7 @@ namespace KeeTalk.Controllers
                 return NotFound();
             }
 
-            var chatRoom = await _context.ChatRoom
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var chatRoom = await _context.ChatRoom.FirstOrDefaultAsync(m => m.Id == id);
             if (chatRoom == null)
             {
                 return NotFound();

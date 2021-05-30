@@ -10,6 +10,8 @@ namespace KeeTalk.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        public int RoomId { get; set; }
 
         [Required]
         public string Author { get; set; }

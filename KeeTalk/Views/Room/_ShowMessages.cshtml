@@ -1,0 +1,34 @@
+﻿@model KeeTalk.Models.MultipleModel
+<div id="chat_window" class="card-body msg_card_body">
+    @foreach (var item in Model.Messages)
+    {
+        if (item.Author == User.Identity.Name)
+        {
+            <div class="d-flex justify-content-end mb-4">
+                <div class="msg_cotainer_send">
+                    <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
+                    @Html.DisplayFor(modelItem => item.Content)
+                    <span class="msg_time_send">@Html.DisplayFor(modelItem => item.Date)</span>
+                </div>
+                <div class="img_cont_msg">
+                    <img src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" class="rounded-circle user_img_msg">
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                    <img src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" class="rounded-circle user_img_msg">
+                </div>
+                <div class="msg_cotainer">
+                    <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
+                    @Html.DisplayFor(modelItem => item.Content)
+                    <span class="msg_time">@Html.DisplayFor(modelItem => item.Date)</span>
+                </div>
+            </div>
+        }
+
+    }
+
+</div>
