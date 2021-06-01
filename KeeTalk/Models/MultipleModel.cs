@@ -9,5 +9,6 @@ namespace KeeTalk.Models
     {
         public IEnumerable<Message> Messages { get; set; }
         public Message Message { get; set; }
+        public ChatRoom ChatRoom { get; set; }
     }
 }

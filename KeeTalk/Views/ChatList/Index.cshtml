@@ -5,15 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="row">
     <div class="card-columns">
         @foreach (var item in Model)
         {
             <div class="card" style="background-color:@Html.DisplayFor(modelItem => item.Color)">
-                <img class="card-img-top" src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" alt="Card image cap">
+                <img class="card-img-top p-1" src="@("images/"+ item.ImageName)" alt="Card image cap">
                 <div class="card-body col text-center">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
@@ -26,5 +23,10 @@
             </div>
         }
     </div>
+    <a asp-action="Create" class="float bg-primary">
+        <i class="fas fa-plus my-float"></i>
+    </a>
 </div>
+
+
 

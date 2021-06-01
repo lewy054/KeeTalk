@@ -30,9 +30,12 @@ namespace KeeTalk.Controllers
         {
             MultipleModel MultipleModelList = new MultipleModel();
             Messages = _db.Messages.Where(u => u.RoomId == id);
+            ChatRoom chatRoom = new ChatRoom();
+            chatRoom = _db.ChatRoom.FirstOrDefault(u => u.Id == id);
             Message message = new Message { RoomId = id };
             MultipleModelList.Message = message;
             MultipleModelList.Messages = Messages;
+            MultipleModelList.ChatRoom = chatRoom;
             return View(MultipleModelList);
         }
 

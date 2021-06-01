@@ -3,18 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-<head>
-    <script>
-        function clearText() {
-            document.getElementById("content_text").textContent = "";
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            var objDiv = document.getElementById("chat_window");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        });
 
-    </script>
-</head>
 <body onload="clearText()">
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
@@ -23,10 +12,10 @@
                     <div class="card-header msg_head">
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
-                                <img src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" class="rounded-circle user_img">
+                                <img src=@("/images/" + Model.ChatRoom.ImageName) class="rounded-circle user_img">
                             </div>
                             <div class="user_info">
-                                <span>Chat name</span>
+                                <span class="display-4 m-5">@Model.ChatRoom.Name</span>
                             </div>
                         </div>
                     </div>
@@ -40,4 +29,5 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/room.js"></script>
 }

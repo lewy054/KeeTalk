@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using KeeTalk.Data;
 using KeeTalk.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace KeeTalk.Controllers
 {
@@ -15,10 +17,13 @@ namespace KeeTalk.Controllers
     public class ChatListController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ChatListController(ApplicationDbContext context)
+
+        public ChatListController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: ChatRoom
@@ -55,10 +60,24 @@ namespace KeeTalk.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Color")] ChatRoom chatRoom)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Color,ImageFile")] ChatRoom chatRoom)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (chatRoom.ImageFile == null || chatRoom.ImageFile.Length == 0)
+                {
+                    chatRoom.ImageName = "default.png";
+                }
+                else
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(chatRoom.ImageFile.FileName).Trim();
+                    string extension = Path.GetExtension(chatRoom.ImageFile.FileName);
+                    chatRoom.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/Images/", fileName);
+                    using var fileStream = new FileStream(path, FileMode.Create);
+                    await chatRoom.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(chatRoom);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

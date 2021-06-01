@@ -9,11 +9,10 @@ namespace KeeTalk.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<KeeTalk.Models.ChatRoom> ChatRoom { get; set; }
+        public DbSet<ChatRoom> ChatRoom { get; set; }
     }
 }
