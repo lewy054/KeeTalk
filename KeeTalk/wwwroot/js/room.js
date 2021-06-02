@@ -1,4 +1,6 @@
-﻿function clearText() {
+﻿window.addEventListener("load", clearText, false);
+
+function clearText() {
     document.getElementById("content_text").textContent = "";
 }
 document.addEventListener("DOMContentLoaded", function () {

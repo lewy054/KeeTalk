@@ -41,12 +41,16 @@ namespace KeeTalk.Controllers
             }
 
             var chatRoom = await _context.ChatRoom.FirstOrDefaultAsync(m => m.Id == id);
+
             if (chatRoom == null)
             {
                 return NotFound();
             }
-
-            return View(chatRoom);
+            if (chatRoom.Creator == User.Identity.Name)
+            {
+                return View(chatRoom);
+            }
+            return Unauthorized();
         }
 
         // GET: ChatRoom/Create
@@ -60,11 +64,11 @@ namespace KeeTalk.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Color,ImageFile")] ChatRoom chatRoom)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Color,ImageFile,Creator")] ChatRoom chatRoom)
         {
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
+
                 if (chatRoom.ImageFile == null || chatRoom.ImageFile.Length == 0)
                 {
                     chatRoom.ImageName = "default.png";
@@ -74,6 +78,7 @@ namespace KeeTalk.Controllers
                     string fileName = Path.GetFileNameWithoutExtension(chatRoom.ImageFile.FileName).Trim();
                     string extension = Path.GetExtension(chatRoom.ImageFile.FileName);
                     chatRoom.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
                     string path = Path.Combine(wwwRootPath + "/Images/", fileName);
                     using var fileStream = new FileStream(path, FileMode.Create);
                     await chatRoom.ImageFile.CopyToAsync(fileStream);
@@ -94,11 +99,16 @@ namespace KeeTalk.Controllers
             }
 
             var chatRoom = await _context.ChatRoom.FindAsync(id);
+
             if (chatRoom == null)
             {
                 return NotFound();
             }
-            return View(chatRoom);
+            if (chatRoom.Creator == User.Identity.Name)
+            {
+                return View(chatRoom);
+            }
+            return Unauthorized();
         }
 
         // POST: ChatRoom/Edit/5
@@ -112,28 +122,31 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (chatRoom.Creator == User.Identity.Name)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(chatRoom);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ChatRoomExists(chatRoom.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(chatRoom);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ChatRoomExists(chatRoom.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(chatRoom);
             }
-            return View(chatRoom);
+            return Unauthorized();
         }
 
         // GET: ChatRoom/Delete/5
@@ -143,15 +156,16 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-
-            var chatRoom = await _context.ChatRoom
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var chatRoom = await _context.ChatRoom.FirstOrDefaultAsync(m => m.Id == id);
             if (chatRoom == null)
             {
                 return NotFound();
             }
-
-            return View(chatRoom);
+            if (chatRoom.Creator == User.Identity.Name)
+            {
+                return View(chatRoom);
+            }
+            return Unauthorized();
         }
 
         // POST: ChatRoom/Delete/5
@@ -160,9 +174,19 @@ namespace KeeTalk.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var chatRoom = await _context.ChatRoom.FindAsync(id);
-            _context.ChatRoom.Remove(chatRoom);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (chatRoom.Creator == User.Identity.Name)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string path = Path.Combine(wwwRootPath + "/Images/", chatRoom.ImageName);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                _context.ChatRoom.Remove(chatRoom);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return Unauthorized();
         }
 
         private bool ChatRoomExists(int id)

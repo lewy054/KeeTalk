@@ -14,6 +14,8 @@ namespace KeeTalk.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        public string Creator { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }

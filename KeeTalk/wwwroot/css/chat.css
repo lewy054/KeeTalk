@@ -5,12 +5,17 @@
 
 .card {
     height: 500px;
-    border-radius: 15px !important;
-    background-color: #a2ff7a;
+    border-radius: 15px;
+}
+
+.card-room {
+    height: 75vh;
+    border-radius: 15px;
+    background-color: #7abfff;
 }
 
 .contacts_body {
-    padding: 0.75rem 0 !important;
+    padding: 0.75rem 0;
     overflow-y: auto;
     white-space: nowrap;
 }
@@ -24,13 +29,13 @@
 }
 
 .card-header {
-    border-radius: 15px 15px 0 0 !important;
-    border-bottom: 0 !important;
+    border-radius: 15px 15px 0 0;
+    border-bottom: 0;
 }
 
 .card-footer {
-    border-radius: 0 0 15px 15px !important;
-    border-top: 0 !important;
+    border-radius: 0 0 15px 15px;
+    border-top: 0;
 }
 
 .container {
@@ -39,31 +44,31 @@
 
 
 .type_msg {
-    background-color: rgba(0,0,0,0.3) !important;
-    border: 0 !important;
-    color: white !important;
-    height: 60px !important;
+    background-color: rgba(0,0,0,0.3);
+    border: 0;
+    color: white;
+    height: 60px;
     overflow-y: auto;
 }
 
     .type_msg:focus {
-        box-shadow: none !important;
-        outline: 0px !important;
+        box-shadow: none;
+        outline: 0px;
     }
 
 .attach_btn {
-    border-radius: 15px 0 0 15px !important;
-    background-color: rgba(0,0,0,0.3) !important;
-    border: 0 !important;
-    color: white !important;
+    border-radius: 15px 0 0 15px;
+    background-color: rgba(0,0,0,0.3);
+    border: 0;
+    color: white;
     cursor: pointer;
 }
 
 .send_btn {
-    border-radius: 0 15px 15px 0 !important;
-    background-color: rgba(0,0,0,0.3) !important;
-    border: 0 !important;
-    color: white !important;
+    border-radius: 0 15px 15px 0;
+    background-color: rgba(0,0,0,0.3);
+    border: 0;
+    color: white;
     cursor: pointer;
 }
 

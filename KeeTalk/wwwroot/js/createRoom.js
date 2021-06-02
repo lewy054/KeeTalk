@@ -12,16 +12,16 @@ function changeImage() {
 
 function startup() {
     var inputColor = document.querySelector("#inputColor");
-    var defaultColor = "#a2ff7a";
+    var defaultColor = "#7abfff";
     inputColor.value = defaultColor;
     inputColor.addEventListener("input", changeColor, false);
     inputColor.select();
+    document.querySelectorAll("#checkColor").forEach(function (p) {
+        checkColor.style.backgroundColor = defaultColor;
+    });
 }
 function changeColor(event) {
-    console.log('test')
     document.querySelectorAll("#checkColor").forEach(function (p) {
-        console.log('test')
-        console.log(event.target.value)
         checkColor.style.backgroundColor = event.target.value;
     });
 }

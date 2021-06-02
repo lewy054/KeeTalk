@@ -4,28 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<body onload="clearText()">
-    <div class="container-fluid h-100">
-        <div class="row justify-content-center h-100">
-            <div class="col-md-8 col-xl-10 chat">
-                <div class="card">
-                    <div class="card-header msg_head">
-                        <div class="d-flex bd-highlight">
-                            <div class="img_cont">
-                                <img src=@("/images/" + Model.ChatRoom.ImageName) class="rounded-circle user_img">
-                            </div>
-                            <div class="user_info">
-                                <span class="display-4 m-5">@Model.ChatRoom.Name</span>
-                            </div>
+<div class="container mt-5 h-100">
+    <div class="row justify-content-center h-100">
+        <div class="col-md-8 col-xl-10 chat h-100">
+            <div class="card card-room">
+                <div class="card-header msg_head">
+                    <div class="d-flex bd-highlight">
+                        <div class="img_cont">
+                            <img src=@("/images/" + Model.ChatRoom.ImageName) class="rounded-circle user_img">
+                        </div>
+                        <div class="user_info">
+                            <span class="display-4 m-5">@Model.ChatRoom.Name</span>
                         </div>
                     </div>
-                    <partial name="_ShowMessagesPartial" />
-                    <partial name="_SendMessagePartial" />
                 </div>
+                <partial name="_ShowMessagesPartial" />
+                <partial name="_SendMessagePartial" />
             </div>
         </div>
     </div>
-</body>
+</div>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
