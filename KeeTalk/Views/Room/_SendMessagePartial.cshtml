@@ -2,7 +2,7 @@
 
 <form asp-action="Create">
     <input type="hidden" asp-for="@Model.Message.RoomId" />
-    <div class="card-footer">
+    <div class="card-footer" style="background-color:@Model.ChatRoom.Color">
         <div class="input-group">
             <div class="input-group-append">
                 <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>

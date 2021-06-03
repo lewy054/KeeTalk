@@ -7,11 +7,11 @@
             <div class="d-flex justify-content-end mb-4">
                 <div class="msg_cotainer_send">
                     <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
-                    @Html.DisplayFor(modelItem => item.Content)
-                    <span class="msg_time_send">@Html.DisplayFor(modelItem => item.Date)</span>
+                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                    <span class="msg_time_send text-black-50">@Html.DisplayFor(modelItem => item.Date)</span>
                 </div>
                 <div class="img_cont_msg">
-                    <img src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" class="rounded-circle user_img_msg">
+                    <img src="@("/images/profileImages/"+ item.AuthorProfileImage)" class="rounded-circle user_img_msg">
                 </div>
             </div>
         }
@@ -19,12 +19,12 @@
         {
             <div class="d-flex justify-content-start mb-4">
                 <div class="img_cont_msg">
-                    <img src="https://bibliotekant.pl/wp-content/uploads/2021/04/placeholder-image-768x576.png" class="rounded-circle user_img_msg">
+                    <img src="@("/images/profileImages/"+ item.AuthorProfileImage)" class="rounded-circle user_img_msg">
                 </div>
                 <div class="msg_cotainer">
                     <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
-                    @Html.DisplayFor(modelItem => item.Content)
-                    <span class="msg_time">@Html.DisplayFor(modelItem => item.Date)</span>
+                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                    <span class="msg_time text-black-50">@Html.DisplayFor(modelItem => item.Date)</span>
                 </div>
             </div>
         }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KeeTalk.Controllers
@@ -32,6 +33,10 @@ namespace KeeTalk.Controllers
             Messages = _db.Messages.Where(u => u.RoomId == id);
             ChatRoom chatRoom = new ChatRoom();
             chatRoom = _db.ChatRoom.FirstOrDefault(u => u.Id == id);
+            foreach(var item in Messages)
+            {
+                item.AuthorProfileImage = _db.Users.FirstOrDefault(u => u.UserName == item.Author).ImageName;
+            }
             Message message = new Message { RoomId = id };
             MultipleModelList.Message = message;
             MultipleModelList.Messages = Messages;
@@ -48,6 +53,8 @@ namespace KeeTalk.Controllers
             {
                 Message.Date = DateTime.Now;
                 Message.Author = User.Identity.Name;
+                byte[] bytes = Encoding.Default.GetBytes(Message.Content);
+                Message.Content = Encoding.UTF8.GetString(bytes);
                 _db.Messages.Add(Message);
                 _db.SaveChanges();
                 return RedirectToAction("Index", new { id = Message.RoomId });

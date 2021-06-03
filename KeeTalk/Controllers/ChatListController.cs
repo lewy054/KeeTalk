@@ -75,11 +75,13 @@ namespace KeeTalk.Controllers
                 }
                 else
                 {
+                    // save image
                     string fileName = Path.GetFileNameWithoutExtension(chatRoom.ImageFile.FileName).Trim();
                     string extension = Path.GetExtension(chatRoom.ImageFile.FileName);
-                    chatRoom.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    chatRoom.ImageName = fileName;
                     string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string path = Path.Combine(wwwRootPath + "/Images/", fileName);
+                    string path = Path.Combine(wwwRootPath + "/Images/roomImages/", fileName);
                     using var fileStream = new FileStream(path, FileMode.Create);
                     await chatRoom.ImageFile.CopyToAsync(fileStream);
                 }
@@ -176,12 +178,14 @@ namespace KeeTalk.Controllers
             var chatRoom = await _context.ChatRoom.FindAsync(id);
             if (chatRoom.Creator == User.Identity.Name)
             {
+                // delete image
                 string wwwRootPath = _hostEnvironment.WebRootPath;
-                string path = Path.Combine(wwwRootPath + "/Images/", chatRoom.ImageName);
+                string path = Path.Combine(wwwRootPath + "/Images/roomImages", chatRoom.ImageName);
                 if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path);
                 }
+                // delete room
                 _context.ChatRoom.Remove(chatRoom);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
