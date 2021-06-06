@@ -14,5 +14,6 @@ namespace KeeTalk.Data
         }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ChatRoom> ChatRoom { get; set; }
+        public DbSet<KeeTalk.Models.Thread> Thread { get; set; }
     }
 }

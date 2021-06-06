@@ -1,0 +1,105 @@
+﻿@model IEnumerable<KeeTalk.Models.Thread>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container bg-light mt-5 p-3">
+    <p class="display-4">General</p>
+    <a class="text-decoration-none text-body" asp-action="News">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-newspaper fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">News</h4>
+                <p class="card-text">Find out what's new</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+    <br/>
+    <a class="text-decoration-none text-body" asp-action="Administration">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-user-shield fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">Administration</h4>
+                <p class="card-text">Everything about our staff</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+</div>
+
+<div class="container bg-light mt-5 p-3">
+    <p class="display-4">Reports</p>
+    <a class="text-decoration-none text-body" asp-action="ReportPlayer">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-angry fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">Report Player</h4>
+                <p class="card-text">Report a player to punish him</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+    <br />
+    <a class="text-decoration-none text-body" asp-action="ReportAdmin">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-tired fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">Report Admin</h4>
+                <p class="card-text">Report an admin to punish him</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+    <br />
+    <a class="text-decoration-none text-body" asp-action="ReportBug">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-bug fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">Report bug</h4>
+                <p class="card-text">Let's us know if something is not working as it should</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+</div>
+
+<div class="container bg-light mt-5 p-3">
+    <p class="display-4">Other</p>
+    <a class="text-decoration-none text-body" asp-action="Playground">
+        <div class="forum-card card flex-row flex-wrap">
+            <div class="card-header border-0">
+                <i class="fas fa-campground fa-5x"></i>
+            </div>
+            <div class="card-block px-2">
+                <h4 class="card-title">Playground</h4>
+                <p class="card-text">Have Fun</p>
+            </div>
+            <div class="card-footer w-100 text-black-50">
+                Footer
+            </div>
+        </div>
+    </a>
+</div>

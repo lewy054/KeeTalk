@@ -1,0 +1,39 @@
+﻿@model IEnumerable<KeeTalk.Models.Thread>
+
+@{
+    ViewData["Title"] = "Threads";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container bg-light mt-5 p-3">
+    <div class="row">
+        <div class="col">
+            <p class="display-4">Threads</p>
+        </div>
+        <div class="col text-right">
+            <p>
+                <a class="btn btn-light" asp-action="Create">Create New Thread</a>
+            </p>
+        </div>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <a class="text-decoration-none text-body" asp-action="">
+            <div class="forum-card card flex-row flex-wrap">
+                <div class="card-header border-0">
+                    <i class="fas fa-campground fa-3x"></i>
+                </div>
+                <div class="card-block px-2">
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                </div>
+                <div class="card-footer w-100 text-black-50">
+                    Started by @Html.DisplayFor(modelItem => item.Creator), @Html.DisplayFor(modelItem => item.StartDate)
+                </div>
+            </div>
+        </a>
+
+    }
+</div>
