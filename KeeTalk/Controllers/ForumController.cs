@@ -13,7 +13,8 @@ namespace KeeTalk.Controllers
     public class ForumController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public IEnumerable<Thread> Thread { get; set; }
+        public Thread OneThread { get; set; }
+        public IEnumerable<Thread> Threads { get; set; }
         public ForumController(ApplicationDbContext context)
         {
             _context = context;
@@ -29,7 +30,7 @@ namespace KeeTalk.Controllers
         {
             string referer = Request.Headers["Referer"].ToString();
             Uri baseUri = new Uri(referer);
-            string section = baseUri.Segments[baseUri.Segments.Length - 1];
+            string section = baseUri.Segments[^1];
             Thread Thread = new Thread { Section = section };
             return View(Thread);
         }
@@ -50,36 +51,43 @@ namespace KeeTalk.Controllers
             }
             return View(thread);
         }
-
-        public IActionResult News()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment([Bind("Id,ThreadId,Content,Author")] Comment comment)
         {
-            Thread = _context.Thread.Where(u => u.Section == "News");
-            return View("Threads", Thread);
+            if (ModelState.IsValid)
+            {
+                comment.Date = DateTime.Now;
+                string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return OpenSection(comment.ThreadId, section);
+            }
+            return View(comment);
         }
-        public IActionResult Administration()
+        public IActionResult OpenSection(int id, string section)
         {
-            Thread = _context.Thread.Where(u => u.Section == "Administration");
-            return View("Threads", Thread);
-        }
-        public IActionResult ReportPlayer()
-        {
-            Thread = _context.Thread.Where(u => u.Section == "ReportPlayer");
-            return View("Threads", Thread);
-        }
-        public IActionResult ReportAdmin()
-        {
-            Thread = _context.Thread.Where(u => u.Section == "ReportAdmin");
-            return View("Threads", Thread);
-        }
-        public IActionResult ReportBug()
-        {
-            Thread = _context.Thread.Where(u => u.Section == "ReportBug");
-            return View("Threads", Thread);
-        }
-        public IActionResult Playground()
-        {
-            Thread = _context.Thread.Where(u => u.Section == "Playground");
-            return View("Threads", Thread);
+            if (id == 0)
+            {
+                Threads = _context.Thread.Where(u => u.Section == section);
+                return View("Threads", Threads);
+            }
+            else
+            {
+                ThreadMultipleModel ThreadMultipleModel = new ThreadMultipleModel
+                {
+                    Thread = _context.Thread.Where(u => u.Section == section).FirstOrDefault(y => y.Id == id),
+                    Comments = _context.Comment.Where(u => u.ThreadId == id)
+                };
+                ThreadMultipleModel.Thread.CreatorImage = _context.Users.FirstOrDefault(u => u.UserName == ThreadMultipleModel.Thread.Creator).ImageName;
+                foreach (var item in ThreadMultipleModel.Comments)
+                {
+                    item.AuthorImage = _context.Users.FirstOrDefault(u => u.UserName == item.Author).ImageName;
+                }
+                ThreadMultipleModel.Comment = new Comment { ThreadId = id };
+                return View("Thread", ThreadMultipleModel);
+            }
         }
     }
+
 }

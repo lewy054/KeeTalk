@@ -3,3 +3,25 @@
     background-color: #007bff;
     color: white;
 }
+
+
+div.image_name {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+}
+
+
+.caption {
+    display: block;
+}
+
+/* For screens above: 576px */
+.card {
+    overflow: hidden;
+}
+
+.card-text {
+    word-wrap: break-word;
+}

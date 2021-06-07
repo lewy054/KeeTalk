@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KeeTalk.Models
 {
-    public class MultipleModel
+    public class ChatRoomMultipleModel
     {
         public IEnumerable<Message> Messages { get; set; }
         public Message Message { get; set; }

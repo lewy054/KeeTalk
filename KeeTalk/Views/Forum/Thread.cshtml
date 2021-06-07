@@ -1,0 +1,59 @@
+﻿@model KeeTalk.Models.ThreadMultipleModel
+
+@{
+    ViewData["Title"] = "Thread";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Thread.Title</h1>
+
+<div class="card flex-row flex-wrap">
+    <div class="card-header border-0 image_name">
+        <img src="/images/profileImages/@Model.Thread.CreatorImage" class="img-thumbnail rounded-circle" />
+        <span class="caption">@Model.Thread.Creator</span>
+    </div>
+    <div class="card-block px-2">
+        <p class="card-text">@Model.Thread.Content</p>
+    </div>
+    <div class="card-footer w-100 text-black-50">
+        @Model.Thread.StartDate
+    </div>
+</div>
+
+@foreach (var item in Model.Comments)
+{
+    <div class="card flex-row flex-wrap mt-3">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="card-header border-0 image_name h-100">
+                        <img src="/images/profileImages/@Html.DisplayFor(modelItem => item.AuthorImage)" class="img-thumbnail rounded-circle" />
+                        <span class="caption">@Html.DisplayFor(modelItem => item.Author)</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer w-100 text-black-50">
+            @Html.DisplayFor(modelItem => item.Date)
+        </div>
+    </div>
+}
+<h1>Answer</h1>
+<form asp-action="CreateComment">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Comment.Author" value="@User.Identity.Name" />
+    <input type="hidden" asp-for="Comment.ThreadId" />
+    <div class="form-group">
+        <label asp-for="Comment.Content" class="control-label"></label>
+        <textarea asp-for="Comment.Content" class="form-control" rows="10"></textarea>
+        <span asp-validation-for="Comment.Content" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>

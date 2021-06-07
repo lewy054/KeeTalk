@@ -1,4 +1,4 @@
-﻿@model KeeTalk.Models.MultipleModel
+﻿@model KeeTalk.Models.ChatRoomMultipleModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,7 +11,7 @@
                 <div class="card-header msg_head" style="background-color:@Model.ChatRoom.Color">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src=@("/images/roomImages/" + Model.ChatRoom.ImageName) class="rounded-circle user_img">
+                            <img src="/images/roomImages/@Model.ChatRoom.ImageName" class="rounded-circle user_img">
                         </div>
                         <div class="user_info">
                             <span class="display-4 m-5">@Model.ChatRoom.Name</span>

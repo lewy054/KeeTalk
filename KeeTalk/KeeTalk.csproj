@@ -6,6 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210607172119_ChangeCreatorToCreatorId.cs" />
+    <Compile Remove="Data\Migrations\20210607172119_ChangeCreatorToCreatorId.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607180042_AddCommentModel.cs" />
+    <Compile Remove="Data\Migrations\20210607180042_AddCommentModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607180527_AddCommentModel.cs" />
+    <Compile Remove="Data\Migrations\20210607180527_AddCommentModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607180709_AddCommentModel.cs" />
+    <Compile Remove="Data\Migrations\20210607180709_AddCommentModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607180827_AddCommentModel.cs" />
+    <Compile Remove="Data\Migrations\20210607180827_AddCommentModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607180922_AddCommentModel.cs" />
+    <Compile Remove="Data\Migrations\20210607180922_AddCommentModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.15" />

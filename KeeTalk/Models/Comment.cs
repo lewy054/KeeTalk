@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace KeeTalk.Models
 {
-    public class Thread
+    public class Comment
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; }
+        public int ThreadId { get; set; }
+        [Required]
+        public string Author { get; set; }
+        [NotMapped]
+        public string AuthorImage { get; set; }
         [Required]
         public string Content { get; set; }
         [Required]
-        public string Creator { get; set; }
-        [NotMapped]
-        public string CreatorImage { get; set; }
-        [Required]
-        public string Section { get; set; }
-        [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime Date { get; set; }
     }
 }

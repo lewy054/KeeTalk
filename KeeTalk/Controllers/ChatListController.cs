@@ -178,16 +178,19 @@ namespace KeeTalk.Controllers
             var chatRoom = await _context.ChatRoom.FindAsync(id);
             if (chatRoom.Creator == User.Identity.Name)
             {
-                // delete image
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string path = Path.Combine(wwwRootPath + "/Images/roomImages", chatRoom.ImageName);
-                if (System.IO.File.Exists(path))
+                if (chatRoom.ImageName != "default.png")
                 {
-                    System.IO.File.Delete(path);
+                    // delete image
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string path = Path.Combine(wwwRootPath + "/Images/roomImages", chatRoom.ImageName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    // delete room
+                    _context.ChatRoom.Remove(chatRoom);
+                    await _context.SaveChangesAsync();
                 }
-                // delete room
-                _context.ChatRoom.Remove(chatRoom);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return Unauthorized();
