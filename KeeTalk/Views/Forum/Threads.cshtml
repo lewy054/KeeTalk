@@ -12,22 +12,36 @@
             <p class="display-4">Threads</p>
         </div>
         <div class="col text-right">
-            <p>
-                <a class="btn btn-light" asp-action="Create">Create New Thread</a>
-            </p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>
+                    <a class="btn btn-light" asp-action="Create">Create New Thread</a>
+                </p>
+            }
         </div>
     </div>
 
     @foreach (var item in Model)
     {
         <a class="text-decoration-none text-body" asp-route-id="@item.Id" asp-route-section="@item.Section">
-            <div class="forum-card card flex-row flex-wrap">
-                <div class="card-header border-0">
-                    <i class="fas"></i>
-                </div>
-                <div class="card-block px-2">
-                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+            <div class="card flex-row flex-wrap mt-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="card-body">
+                                <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                            </div>
+                        </div>
+                        <div class="card-header col-2">
+                            <div class="border-0 image_name float-right">
+                                <b>Last post:</b>
+                                <img src="/images/profileImages/@Html.DisplayFor(modelItem => item.LastCommentAuthorImage)" class="img-thumbnail rounded-circle" />
+                                <b>@Html.DisplayFor(modelItem => item.LastCommentAuthor)</b>
+                                <p>@Html.DisplayFor(modelItem => item.LastCommentDate)</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer w-100 text-black-50">
                     Started by @Html.DisplayFor(modelItem => item.Creator), @Html.DisplayFor(modelItem => item.StartDate)

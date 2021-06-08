@@ -23,5 +23,11 @@ namespace KeeTalk.Models
         public string Section { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
+        [NotMapped]
+        public string LastCommentAuthor { get; set; }
+        [NotMapped]
+        public DateTime LastCommentDate { get; set; }
+        [NotMapped]
+        public string LastCommentAuthorImage { get; set; }
     }
 }

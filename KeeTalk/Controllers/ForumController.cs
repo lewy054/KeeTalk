@@ -29,8 +29,7 @@ namespace KeeTalk.Controllers
         public IActionResult Create()
         {
             string referer = Request.Headers["Referer"].ToString();
-            Uri baseUri = new Uri(referer);
-            string section = baseUri.Segments[^1];
+            string section = referer.Split('=').Last();
             Thread Thread = new Thread { Section = section };
             return View(Thread);
         }
@@ -47,7 +46,7 @@ namespace KeeTalk.Controllers
                 thread.StartDate = DateTime.Now;
                 _context.Add(thread);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(thread.Section);
+                return OpenSection(0, thread.Section);
             }
             return View(thread);
         }
@@ -69,7 +68,26 @@ namespace KeeTalk.Controllers
         {
             if (id == 0)
             {
+                int maxLength = 200;
                 Threads = _context.Thread.Where(u => u.Section == section);
+                foreach (var item in Threads)
+                {
+                    item.Content = item.Content.Substring(0, Math.Min(item.Content.Length, maxLength)) + "...";
+                    var lastComment = _context.Comment.OrderByDescending(s => s.Id).FirstOrDefault(s => s.ThreadId == item.Id);
+                    if (lastComment == null)
+                    {
+                        item.LastCommentAuthor = item.Creator;
+                        item.LastCommentAuthorImage = _context.Users.FirstOrDefault(u => u.UserName == item.Creator).ImageName;
+                        item.LastCommentDate = item.StartDate;
+                    }
+                    else
+                    {
+                        item.LastCommentAuthor = lastComment.Author;
+                        item.LastCommentAuthorImage = _context.Users.FirstOrDefault(u => u.UserName == lastComment.Author).ImageName;
+                        item.LastCommentDate = lastComment.Date;
+                    }
+                }
+                //TODO forum/create is returned so you cannot open thread
                 return View("Threads", Threads);
             }
             else
