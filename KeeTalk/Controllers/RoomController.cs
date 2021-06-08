@@ -29,19 +29,20 @@ namespace KeeTalk.Controllers
         // GET: ChatController
         public ActionResult Index(int id)
         {
-            MultipleModel MultipleModelList = new MultipleModel();
             Messages = _db.Messages.Where(u => u.RoomId == id);
             ChatRoom chatRoom = new ChatRoom();
             chatRoom = _db.ChatRoom.FirstOrDefault(u => u.Id == id);
-            foreach(var item in Messages)
+            foreach (var item in Messages)
             {
                 item.AuthorProfileImage = _db.Users.FirstOrDefault(u => u.UserName == item.Author).ImageName;
             }
-            Message message = new Message { RoomId = id };
-            MultipleModelList.Message = message;
-            MultipleModelList.Messages = Messages;
-            MultipleModelList.ChatRoom = chatRoom;
-            return View(MultipleModelList);
+            ChatRoomMultipleModel ChatRoomMultipleModelList = new ChatRoomMultipleModel
+            {
+                Message = new Message { RoomId = id },
+                Messages = Messages,
+                ChatRoom = chatRoom
+            };
+            return View(ChatRoomMultipleModelList);
         }
 
         // POST: ChatController/Create

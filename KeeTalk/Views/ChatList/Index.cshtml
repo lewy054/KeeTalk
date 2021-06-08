@@ -9,7 +9,7 @@
     <div class="card-columns">
         @foreach (var item in Model)
         {
-            <div class="card" style="background-color:@Html.DisplayFor(modelItem => item.Color)">
+            <div class="card-list card" style="background-color:@Html.DisplayFor(modelItem => item.Color)">
                 <img class="card-img-top p-1" src="@("images/roomImages/"+ item.ImageName)" alt="Card image cap">
                 <div class="card-body col text-center">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
