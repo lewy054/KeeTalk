@@ -6,6 +6,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <img class="rounded-circle user_img_msg" src="/images/profileImages/@(UserManager.GetUserAsync(User).Result.ImageName)">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
