@@ -23,7 +23,7 @@
 
     @foreach (var item in Model)
     {
-        <a class="text-decoration-none text-body" asp-route-id="@item.Id" asp-route-section="@item.Section">
+        <a class="text-decoration-none text-body" asp-action="Section" asp-route-id="@item.Id" asp-route-section="@item.Section">
             <div class="card flex-row flex-wrap mt-3">
                 <div class="container">
                     <div class="row">

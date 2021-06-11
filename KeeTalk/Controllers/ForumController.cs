@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KeeTalk.Data;
 using KeeTalk.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace KeeTalk.Controllers
 {
@@ -41,33 +42,44 @@ namespace KeeTalk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Content,Creator,Section")] Thread thread)
         {
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                thread.StartDate = DateTime.Now;
-                _context.Add(thread);
-                await _context.SaveChangesAsync();
-                return OpenSection(0, thread.Section);
+                if (ModelState.IsValid)
+                {
+                    thread.StartDate = DateTime.Now;
+                    _context.Add(thread);
+                    await _context.SaveChangesAsync();
+                    //redirect needed
+                    return Section(0, thread.Section);
+                }
+                return View(thread);
             }
-            return View(thread);
+            return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateComment([Bind("Id,ThreadId,Content,Author")] Comment comment)
         {
-            if (ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                comment.Date = DateTime.Now;
-                string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                return OpenSection(comment.ThreadId, section);
+                if (ModelState.IsValid)
+                {
+                    comment.Date = DateTime.Now;
+                    string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
+                    _context.Add(comment);
+                    await _context.SaveChangesAsync();
+                    return Section(comment.ThreadId, section);
+                }
+                return View(comment);
             }
-            return View(comment);
+            return View();
         }
-        public IActionResult OpenSection(int id, string section)
+        public IActionResult Section(int id, string section)
         {
             if (id == 0)
             {
+                //read one thread
                 int maxLength = 200;
                 Threads = _context.Thread.Where(u => u.Section == section);
                 foreach (var item in Threads)
@@ -76,22 +88,24 @@ namespace KeeTalk.Controllers
                     var lastComment = _context.Comment.OrderByDescending(s => s.Id).FirstOrDefault(s => s.ThreadId == item.Id);
                     if (lastComment == null)
                     {
+                        //there is no comments, get author post
                         item.LastCommentAuthor = item.Creator;
                         item.LastCommentAuthorImage = _context.Users.FirstOrDefault(u => u.UserName == item.Creator).ImageName;
                         item.LastCommentDate = item.StartDate;
                     }
                     else
                     {
+                        //get data from last comment
                         item.LastCommentAuthor = lastComment.Author;
                         item.LastCommentAuthorImage = _context.Users.FirstOrDefault(u => u.UserName == lastComment.Author).ImageName;
                         item.LastCommentDate = lastComment.Date;
                     }
                 }
-                //TODO forum/create is returned so you cannot open thread
                 return View("Threads", Threads);
             }
             else
             {
+                //all threads in section
                 ThreadMultipleModel ThreadMultipleModel = new ThreadMultipleModel
                 {
                     Thread = _context.Thread.Where(u => u.Section == section).FirstOrDefault(y => y.Id == id),
