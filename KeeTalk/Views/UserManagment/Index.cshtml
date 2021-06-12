@@ -1,0 +1,63 @@
+﻿@model UserRolesMultiModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>User Roles</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Manage</th>
+            <th>Total bans</th>
+            <th>Banned</th>
+            <th>Ban duration</th>
+            <th>Ban</th>
+        </tr>
+    </thead>
+    @foreach (var user in Model.UserRolesViewModelList)
+    {
+        <tbody>
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@string.Join(",", user.Roles.ToList())</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
+                </td>
+                <td>@user.TotalBans</td>
+                <td>@user.Banned</td>
+                <td>
+                    @if (user.Banned)
+                    {
+                        <input asp-for="UserRolesViewModel.BanEndTime" form="@user.UserId" disabled value="@user.BanEndTime.ToString("yyyy-MM-dd")" />
+                    }
+                    else
+                    {
+                        <input asp-for="UserRolesViewModel.BanEndTime" form="@user.UserId" value="@user.BanEndTime.ToString("yyyy-MM-dd")"  />
+                        <span asp-validation-for="UserRolesViewModel.BanEndTime" class="text-danger"></span>
+                    }
+                    <input asp-for="UserRolesViewModel.UserId" value="@user.UserId" form="@user.UserId" hidden />
+                </td>
+                <td>
+                    <form id="@user.UserId" method="post" asp-action="BanUser">
+                        @if (user.Banned)
+                        {
+                            <input type="submit" class="btn btn-warning" value="Unban user"
+                                   onclick="return confirm('Are you sure you want to unban\n {username - @user.UserName\n email - @user.Email}?')" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-danger" value="Ban User"
+                                   onclick="return confirm('Are you sure you want to ban\n {username - @user.UserName\n email - @user.Email}?')" />
+                        }
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+
+

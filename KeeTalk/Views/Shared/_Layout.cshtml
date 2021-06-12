@@ -29,6 +29,12 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Forum" asp-action="Index">Forum</a>
                 </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="UserManagment" asp-action="Index">Admin</a>
+                    </li>
+                }
             </ul>
             <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
                 <ul class="navbar-nav mx-auto text-md-center text-left">

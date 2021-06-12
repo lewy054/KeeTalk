@@ -9,7 +9,7 @@ namespace KeeTalk.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedRolesAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
             //Seed Roles
             await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
@@ -17,7 +17,7 @@ namespace KeeTalk.Data
             await roleManager.CreateAsync(new IdentityRole(Roles.User.ToString()));
         }
 
-        public static async Task CreateDefaultAdmin(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task CreateDefaultAdmin(UserManager<ApplicationUser> userManager)
         {
             //Seed Default User
             var defaultUser = new ApplicationUser

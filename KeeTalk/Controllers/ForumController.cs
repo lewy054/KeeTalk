@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using KeeTalk.Data;
 using KeeTalk.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KeeTalk.Controllers
 {
@@ -40,9 +41,9 @@ namespace KeeTalk.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Title,Content,Creator,Section")] Thread thread)
         {
-            if (User.Identity.IsAuthenticated)
             {
                 if (ModelState.IsValid)
                 {
@@ -54,26 +55,22 @@ namespace KeeTalk.Controllers
                 }
                 return View(thread);
             }
-            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> CreateComment([Bind("Id,ThreadId,Content,Author")] Comment comment)
         {
-            if (User.Identity.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    comment.Date = DateTime.Now;
-                    string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
-                    _context.Add(comment);
-                    await _context.SaveChangesAsync();
-                    return Section(comment.ThreadId, section);
-                }
-                return View(comment);
+                comment.Date = DateTime.Now;
+                string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return Section(comment.ThreadId, section);
             }
-            return View();
+            return View(comment);
         }
         public IActionResult Section(int id, string section)
         {

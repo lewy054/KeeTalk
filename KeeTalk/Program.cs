@@ -26,8 +26,8 @@ namespace KeeTalk
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await ContextSeed.SeedRolesAsync(userManager, roleManager);
-                    await ContextSeed.CreateDefaultAdmin(userManager, roleManager);
+                    await ContextSeed.SeedRolesAsync(roleManager);
+                    await ContextSeed.CreateDefaultAdmin(userManager);
                 }
                 catch (Exception ex)
                 {

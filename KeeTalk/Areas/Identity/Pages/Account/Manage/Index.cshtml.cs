@@ -104,11 +104,14 @@ namespace KeeTalk.Areas.Identity.Pages.Account.Manage
             string wwwRootPath = _hostEnvironment.WebRootPath;
             if (!String.IsNullOrEmpty(user.ImageName))
             {
-                //delete previous image
-                path = Path.Combine(wwwRootPath + "/Images/profileImages/", user.ImageName);
-                if (System.IO.File.Exists(path))
+                if (user.ImageName != "default.png")
                 {
-                    System.IO.File.Delete(path);
+                    //delete previous image
+                    path = Path.Combine(wwwRootPath + "/Images/profileImages/", user.ImageName);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
                 }
             }
             // save new image

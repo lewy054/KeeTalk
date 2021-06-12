@@ -18,6 +18,20 @@
     <Compile Remove="Data\Migrations\20210607180827_AddCommentModel.Designer.cs" />
     <Compile Remove="Data\Migrations\20210607180922_AddCommentModel.cs" />
     <Compile Remove="Data\Migrations\20210607180922_AddCommentModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611171805_AddBanOption.cs" />
+    <Compile Remove="Data\Migrations\20210611171805_AddBanOption.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611172138_AddBanOption.cs" />
+    <Compile Remove="Data\Migrations\20210611172138_AddBanOption.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611220740_ChangeBanEndTimeFormat.cs" />
+    <Compile Remove="Data\Migrations\20210611220740_ChangeBanEndTimeFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611220923_ChangeBanEndTimeFormat.cs" />
+    <Compile Remove="Data\Migrations\20210611220923_ChangeBanEndTimeFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611222026_ChangeBanTimeFormat.cs" />
+    <Compile Remove="Data\Migrations\20210611222026_ChangeBanTimeFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611223208_ChangeBanTimeFormat.cs" />
+    <Compile Remove="Data\Migrations\20210611223208_ChangeBanTimeFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210611223453_ChangeBanTimeFormat.cs" />
+    <Compile Remove="Data\Migrations\20210611223453_ChangeBanTimeFormat.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
