@@ -22,7 +22,8 @@ namespace KeeTalk.Data
             //Seed Default User
             var defaultUser = new ApplicationUser
             {
-                UserName = "defaultadmin2021",
+                //UserName = "defaultadmin2021",
+                UserName = "test",
                 Email = "defaultadmin2021@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -33,7 +34,8 @@ namespace KeeTalk.Data
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "-'6t9B=RWT/Wuh{r");
+                    //await userManager.CreateAsync(defaultUser, "-'6t9B=RWT/Wuh{r");
+                    await userManager.CreateAsync(defaultUser, "Test!23");
                     await userManager.AddToRoleAsync(defaultUser, Roles.User.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Roles.Moderator.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());

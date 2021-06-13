@@ -13,9 +13,11 @@ namespace KeeTalk.Models
     {
         [Key]
         public int Id { get; set; }
+        public string AuthorId { get; set; }
+        [NotMapped]
+        public string AuthorName { get; set; }
         [Required]
-        public string Creator { get; set; }
-        [Required]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Must be between 2 and 30 characters")]
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }

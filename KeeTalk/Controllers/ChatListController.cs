@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KeeTalk.Data;
 using KeeTalk.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace KeeTalk.Controllers
 {
@@ -18,18 +19,27 @@ namespace KeeTalk.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public ChatListController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public ChatListController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _userManager = userManager;
         }
 
         // GET: ChatRoom
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ChatRoom.ToListAsync());
+            List<ChatRoom> chatRoomList = new List<ChatRoom>();
+            chatRoomList = await _context.ChatRoom.ToListAsync();
+            foreach (var room in chatRoomList)
+            {
+                room.AuthorName = _userManager.Users.Where(y => y.Id == room.AuthorId).FirstOrDefault().UserName;
+            }
+            IEnumerable<ChatRoom> chatRoom = chatRoomList;
+            return View(chatRoom);
         }
 
         // GET: ChatRoom/Details/5
@@ -46,7 +56,7 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-            if (chatRoom.Creator == User.Identity.Name)
+            if (chatRoom.AuthorId == _userManager.GetUserId(User))
             {
                 return View(chatRoom);
             }
@@ -64,11 +74,11 @@ namespace KeeTalk.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Color,ImageFile,Creator")] ChatRoom chatRoom)
+        public async Task<IActionResult> Create([Bind("Id,AuthorId,Name,Description,Color,ImageFile")] ChatRoom chatRoom)
         {
             if (ModelState.IsValid)
             {
-
+                chatRoom.AuthorId = _userManager.GetUserId(User);
                 if (chatRoom.ImageFile == null || chatRoom.ImageFile.Length == 0)
                 {
                     chatRoom.ImageName = "default.png";
@@ -106,7 +116,7 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-            if (chatRoom.Creator == User.Identity.Name)
+            if (chatRoom.AuthorId == _userManager.GetUserId(User))
             {
                 return View(chatRoom);
             }
@@ -124,7 +134,7 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-            if (chatRoom.Creator == User.Identity.Name)
+            if (chatRoom.AuthorId == _userManager.GetUserId(User))
             {
                 if (ModelState.IsValid)
                 {
@@ -163,7 +173,7 @@ namespace KeeTalk.Controllers
             {
                 return NotFound();
             }
-            if (chatRoom.Creator == User.Identity.Name)
+            if (chatRoom.AuthorId == _userManager.GetUserId(User))
             {
                 return View(chatRoom);
             }
@@ -176,7 +186,7 @@ namespace KeeTalk.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var chatRoom = await _context.ChatRoom.FindAsync(id);
-            if (chatRoom.Creator == User.Identity.Name)
+            if (chatRoom.AuthorId == _userManager.GetUserId(User))
             {
                 if (chatRoom.ImageName != "default.png")
                 {

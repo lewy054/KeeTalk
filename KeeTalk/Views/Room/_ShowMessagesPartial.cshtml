@@ -2,11 +2,11 @@
 <div id="chat_window" class="card-body msg_card_body">
     @foreach (var item in Model.Messages)
     {
-        if (item.Author == User.Identity.Name)
+        if (item.AuthorName == User.Identity.Name)
         {
             <div class="d-flex justify-content-end mb-4">
                 <div class="msg_cotainer_send">
-                    <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.AuthorName)</h4>
                     <p>@Html.DisplayFor(modelItem => item.Content)</p>
                     <span class="msg_time_send text-black-50">@Html.DisplayFor(modelItem => item.Date)</span>
                 </div>
@@ -22,7 +22,7 @@
                     <img src="@("/images/profileImages/"+ item.AuthorProfileImage)" class="rounded-circle user_img_msg">
                 </div>
                 <div class="msg_cotainer">
-                    <h4>@Html.DisplayFor(modelItem => item.Author)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.AuthorName)</h4>
                     <p>@Html.DisplayFor(modelItem => item.Content)</p>
                     <span class="msg_time text-black-50">@Html.DisplayFor(modelItem => item.Date)</span>
                 </div>

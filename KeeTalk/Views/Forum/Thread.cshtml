@@ -12,8 +12,8 @@
         <div class="row">
             <div>
                 <div class="card-header border-0 image_name h-100">
-                    <img src="/images/profileImages/@Model.Thread.CreatorImage" class="img-thumbnail rounded-circle" />
-                    <span class="caption">@Model.Thread.Creator</span>
+                    <img src="/images/profileImages/@Model.Thread.AuthorImage" class="img-thumbnail rounded-circle" />
+                    <span class="caption">@Model.Thread.AuthorName</span>
                 </div>
             </div>
             <div class="col-10">
@@ -36,7 +36,7 @@
                 <div>
                     <div class="card-header border-0 image_name h-100">
                         <img src="/images/profileImages/@Html.DisplayFor(modelItem => item.AuthorImage)" class="img-thumbnail rounded-circle" />
-                        <span class="caption">@Html.DisplayFor(modelItem => item.Author)</span>
+                        <span class="caption">@Html.DisplayFor(modelItem => item.AuthorName)</span>
                     </div>
                 </div>
                 <div class="col-10">
@@ -56,7 +56,7 @@
     <h1>Answer</h1>
     <form asp-action="CreateComment">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Comment.Author" value="@User.Identity.Name" />
+        <input type="hidden" asp-for="Comment.AuthorName" value="@User.Identity.Name" />
         <input type="hidden" asp-for="Comment.ThreadId" />
         <div class="form-group">
             <label asp-for="Comment.Content" class="control-label"></label>

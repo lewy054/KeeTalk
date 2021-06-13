@@ -12,13 +12,16 @@ namespace KeeTalk.Models
         [Key]
         public int Id { get; set; }
         [Required]
+
+        [StringLength(150, MinimumLength = 8, ErrorMessage = "Must be between 8 and 150 characters")]
         public string Title { get; set; }
         [Required]
         public string Content { get; set; }
-        [Required]
-        public string Creator { get; set; }
+        public string AuthorId { get; set; }
         [NotMapped]
-        public string CreatorImage { get; set; }
+        public string AuthorName { get; set; }
+        [NotMapped]
+        public string AuthorImage { get; set; }
         [Required]
         public string Section { get; set; }
         [Required]

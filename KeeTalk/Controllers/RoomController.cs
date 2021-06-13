@@ -2,6 +2,7 @@
 using KeeTalk.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,26 +16,29 @@ namespace KeeTalk.Controllers
     [Authorize]
     public class RoomController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         [BindProperty]
         public IEnumerable<Message> Messages { get; set; }
         [BindProperty]
         public Message Message { get; set; }
 
 
-        public RoomController(ApplicationDbContext db)
+        public RoomController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            _db = db;
+            _context = context;
+            _userManager = userManager;
         }
         // GET: ChatController
         public ActionResult Index(int id)
         {
-            Messages = _db.Messages.Where(u => u.RoomId == id);
+            Messages = _context.Messages.Where(u => u.RoomId == id);
             ChatRoom chatRoom = new ChatRoom();
-            chatRoom = _db.ChatRoom.FirstOrDefault(u => u.Id == id);
-            foreach (var item in Messages)
+            chatRoom = _context.ChatRoom.FirstOrDefault(u => u.Id == id);
+            foreach (var message in Messages)
             {
-                item.AuthorProfileImage = _db.Users.FirstOrDefault(u => u.UserName == item.Author).ImageName;
+                message.AuthorProfileImage = _context.Users.FirstOrDefault(u => u.Id == message.AuthorId).ImageName;
+                message.AuthorName = _userManager.Users.Where(u => u.Id == message.AuthorId).FirstOrDefault().UserName;
             }
             ChatRoomMultipleModel ChatRoomMultipleModelList = new ChatRoomMultipleModel
             {
@@ -50,20 +54,17 @@ namespace KeeTalk.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create()
         {
-            if (!String.IsNullOrEmpty(User.Identity.Name))
+            if (ModelState.IsValid)
             {
                 Message.Date = DateTime.Now;
-                Message.Author = User.Identity.Name;
+                Message.AuthorId = _userManager.GetUserId(User);
                 byte[] bytes = Encoding.Default.GetBytes(Message.Content);
                 Message.Content = Encoding.UTF8.GetString(bytes);
-                _db.Messages.Add(Message);
-                _db.SaveChanges();
+                _context.Messages.Add(Message);
+                _context.SaveChanges();
                 return RedirectToAction("Index", new { id = Message.RoomId });
-
             }
-            return View("NotAuthorized");
-
-
+            return View(Message);
         }
     }
 }

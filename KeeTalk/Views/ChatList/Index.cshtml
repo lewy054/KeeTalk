@@ -16,7 +16,7 @@
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                     <a asp-action="Index" asp-controller="Room" asp-route-id="@item.Id" class="btn btn-primary">Enter room</a>
                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    @if (item.Creator == User.Identity.Name)
+                    @if (item.AuthorName == User.Identity.Name)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @: |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> @: |

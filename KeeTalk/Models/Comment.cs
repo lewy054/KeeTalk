@@ -13,8 +13,9 @@ namespace KeeTalk.Models
         public int Id { get; set; }
         [Required]
         public int ThreadId { get; set; }
-        [Required]
-        public string Author { get; set; }
+        public string AuthorId { get; set; }
+        [NotMapped]
+        public string AuthorName { get; set; }
         [NotMapped]
         public string AuthorImage { get; set; }
         [Required]

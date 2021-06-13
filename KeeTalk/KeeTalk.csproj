@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20210607172119_ChangeCreatorToCreatorId.cs" />
-    <Compile Remove="Data\Migrations\20210607172119_ChangeCreatorToCreatorId.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210607172119_ChangeAuthorToAuthorId.cs" />
+    <Compile Remove="Data\Migrations\20210607172119_ChangeAuthorToAuthorId.Designer.cs" />
     <Compile Remove="Data\Migrations\20210607180042_AddCommentModel.cs" />
     <Compile Remove="Data\Migrations\20210607180042_AddCommentModel.Designer.cs" />
     <Compile Remove="Data\Migrations\20210607180527_AddCommentModel.cs" />
@@ -32,6 +32,12 @@
     <Compile Remove="Data\Migrations\20210611223208_ChangeBanTimeFormat.Designer.cs" />
     <Compile Remove="Data\Migrations\20210611223453_ChangeBanTimeFormat.cs" />
     <Compile Remove="Data\Migrations\20210611223453_ChangeBanTimeFormat.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210613070638_ChangeCreatorToAuthor.cs" />
+    <Compile Remove="Data\Migrations\20210613070638_ChangeCreatorToAuthor.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210613071810_ConnectTablesByUserId.cs" />
+    <Compile Remove="Data\Migrations\20210613071810_ConnectTablesByUserId.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210613072422_ConnectTablesByUserId.cs" />
+    <Compile Remove="Data\Migrations\20210613072422_ConnectTablesByUserId.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
