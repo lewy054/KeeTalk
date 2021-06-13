@@ -23,8 +23,8 @@
 
     @foreach (var item in Model)
     {
-        <a class="text-decoration-none text-body" asp-action="Section" asp-route-id="@item.Id" asp-route-section="@item.Section">
-            <div class="card flex-row flex-wrap mt-3">
+        <div class="card flex-row flex-wrap mt-3">
+            <a class="text-decoration-none text-body w-100" asp-action="Section" asp-route-id="@item.Id" asp-route-section="@item.Section">
                 <div class="container">
                     <div class="row">
                         <div class="col-10">
@@ -43,11 +43,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer w-100 text-black-50">
-                    Started by @Html.DisplayFor(modelItem => item.AuthorName), @Html.DisplayFor(modelItem => item.StartDate)
-                </div>
+            </a>
+            <div class="card-footer w-100 text-black-50">
+                Started by @Html.DisplayFor(modelItem => item.AuthorName), @Html.DisplayFor(modelItem => item.StartDate)
+                @if (User.IsInRole("Admin"))
+                {
+                    <form asp-action="DeleteThread" method="post" asp-route-id="@item.Id">
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
+                }
             </div>
-        </a>
-
+        </div>
     }
 </div>

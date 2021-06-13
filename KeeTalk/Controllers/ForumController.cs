@@ -53,8 +53,7 @@ namespace KeeTalk.Controllers
                     thread.StartDate = DateTime.Now;
                     _context.Add(thread);
                     await _context.SaveChangesAsync();
-                    //redirect needed
-                    return Section(0, thread.Section);
+                    return Redirect($"Section?section={thread.Section}");
                 }
                 return View(thread);
             }
@@ -72,7 +71,7 @@ namespace KeeTalk.Controllers
                 string section = _context.Thread.FirstOrDefault(u => u.Id == comment.ThreadId).Section;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return Section(comment.ThreadId, section);
+                return Redirect($"Section/{comment.ThreadId}?section={section}");
             }
             return View(comment);
         }
@@ -131,6 +130,94 @@ namespace KeeTalk.Controllers
                 return View("Thread", ThreadMultipleModel);
             }
         }
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteThread(int id)
+        {
+            var thread = _context.Thread.Where(u => u.Id == id).FirstOrDefault();
+            var comments = _context.Comment.Where(u => u.ThreadId == id).ToList();
+            foreach (var comment in comments)
+            {
+                _context.Comment.Remove(comment);
+            }
+            _context.Thread.Remove(thread);
+            _context.SaveChanges();
+            return Redirect($"/Forum/Section?section={thread.Section}");
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteComment(int id)
+        {
+            var comment = _context.Comment.Where(u => u.Id == id).FirstOrDefault();
+            var section = _context.Thread.Where(u => u.Id == comment.ThreadId).FirstOrDefault().Section;
+            _context.Comment.Remove(comment);
+            _context.SaveChanges();
+            return Redirect($"/Forum/Section/{comment.ThreadId}?section={section}");
+        }
+
+        // GET: ChatRoom/Edit/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditComment(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var comment = await _context.Comment.FindAsync(id);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return View(comment);
+        }
+
+        // POST: ChatRoom/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditComment(int id, [Bind("Id,ThreadId,AuthorId,Content,Date")] Comment comment)
+        {
+            if (id != comment.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                comment.EditDate = DateTime.Now;
+                comment.EditedBy = User.Identity.Name;
+                try
+                {
+                    _context.Update(comment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CommentExists(comment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                var section = _context.Thread.Where(u => u.Id == comment.ThreadId).FirstOrDefault().Section;
+                return Redirect($"/Forum/Section/{comment.ThreadId}?section={section}");
+            }
+            return View(comment);
+
+        }
+
+        private bool CommentExists(int id)
+        {
+            return _context.Comment.Any(e => e.Id == id);
+        }
+    }
 }

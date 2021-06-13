@@ -48,6 +48,19 @@
         </div>
         <div class="card-footer w-100 text-black-50">
             @Html.DisplayFor(modelItem => item.Date)
+            <div class="btn-group float-right">
+                @if (!String.IsNullOrEmpty(item.EditedBy))
+                {
+                    <span>Edited by @Html.DisplayFor(modelItem => item.EditedBy) @Html.DisplayFor(modelItem => item.EditDate)</span>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <form asp-action="DeleteComment" method="post" asp-route-id="@item.Id">
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
+                    <a class="btn btn-warning" asp-action="EditComment" asp-route-id="@item.Id">Edit</a>
+                }
+            </div>
         </div>
     </div>
 }

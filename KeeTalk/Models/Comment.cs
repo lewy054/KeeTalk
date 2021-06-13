@@ -22,5 +22,8 @@ namespace KeeTalk.Models
         public string Content { get; set; }
         [Required]
         public DateTime Date { get; set; }
+
+        public string EditedBy { get; set; }
+        public DateTime EditDate { get; set; }
     }
 }
