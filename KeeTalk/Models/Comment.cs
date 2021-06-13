@@ -14,10 +14,6 @@ namespace KeeTalk.Models
         [Required]
         public int ThreadId { get; set; }
         public string AuthorId { get; set; }
-        [NotMapped]
-        public string AuthorName { get; set; }
-        [NotMapped]
-        public string AuthorImage { get; set; }
         [Required]
         public string Content { get; set; }
         [Required]
@@ -25,5 +21,10 @@ namespace KeeTalk.Models
 
         public string EditedBy { get; set; }
         public DateTime EditDate { get; set; }
+
+        [NotMapped]
+        public string AuthorName { get; set; }
+        [NotMapped]
+        public string AuthorImage { get; set; }
     }
 }

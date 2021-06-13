@@ -28,6 +28,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-10">
+                            @if (item.Closed)
+                            {
+                                <div class="mt-2">
+                                    <i class="fa fa-lock"></i>
+                                    <span class="text-danger">Closed</span>
+                                </div>
+                            }
                             <div class="card-body">
                                 <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
                                 <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
@@ -46,12 +53,17 @@
             </a>
             <div class="card-footer w-100 text-black-50">
                 Started by @Html.DisplayFor(modelItem => item.AuthorName), @Html.DisplayFor(modelItem => item.StartDate)
-                @if (User.IsInRole("Admin"))
-                {
-                    <form asp-action="DeleteThread" method="post" asp-route-id="@item.Id">
-                        <input type="submit" class="btn btn-danger" value="Delete" />
-                    </form>
-                }
+                <div class="btn-group float-right">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <form asp-action="DeleteThread" method="post" asp-route-id="@item.Id">
+                            <input type="submit" class="btn btn-danger" value="Delete" />
+                        </form>
+                        <form asp-action="CloseOpenThread" method="post" asp-route-id="@item.Id">
+                            <input type="submit" class="btn btn-primary" value="@(item.Closed ? "Open" : "Close")" />
+                        </form>
+                    }
+                </div>
             </div>
         </div>
     }

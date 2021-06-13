@@ -215,6 +215,17 @@ namespace KeeTalk.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CloseOpenThread(int id)
+        {
+            var thread = _context.Thread.Where(u => u.Id == id).FirstOrDefault();
+            thread.Closed = !thread.Closed;
+            _context.SaveChanges();
+            return Redirect($"/Forum/Section?section={thread.Section}");
+        }
+
         private bool CommentExists(int id)
         {
             return _context.Comment.Any(e => e.Id == id);

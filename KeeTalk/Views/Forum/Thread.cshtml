@@ -64,7 +64,7 @@
         </div>
     </div>
 }
-@if (User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated && !Model.Thread.Closed)
 {
     <h1>Answer</h1>
     <form asp-action="CreateComment">

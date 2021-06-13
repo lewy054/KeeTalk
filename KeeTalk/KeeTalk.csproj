@@ -38,6 +38,8 @@
     <Compile Remove="Data\Migrations\20210613071810_ConnectTablesByUserId.Designer.cs" />
     <Compile Remove="Data\Migrations\20210613072422_ConnectTablesByUserId.cs" />
     <Compile Remove="Data\Migrations\20210613072422_ConnectTablesByUserId.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210613091209_addClosedToThread.cs" />
+    <Compile Remove="Data\Migrations\20210613091209_addClosedToThread.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

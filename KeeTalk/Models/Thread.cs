@@ -18,14 +18,16 @@ namespace KeeTalk.Models
         [Required]
         public string Content { get; set; }
         public string AuthorId { get; set; }
-        [NotMapped]
-        public string AuthorName { get; set; }
-        [NotMapped]
-        public string AuthorImage { get; set; }
         [Required]
         public string Section { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
+        public bool Closed { get; set; } = false;
+
+        [NotMapped]
+        public string AuthorName { get; set; }
+        [NotMapped]
+        public string AuthorImage { get; set; }
         [NotMapped]
         public string LastCommentAuthor { get; set; }
         [NotMapped]
